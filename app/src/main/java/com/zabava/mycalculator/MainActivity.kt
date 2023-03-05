@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
     private var tvInput: TextView? = null
-    var lastNumeric: Boolean = false
-    var lastDot: Boolean = false
+    private var lastNumeric: Boolean = false
+    private var lastDot: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +53,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        btnClear.setOnClickListener { onClear(btnClear) }
-        btnDot.setOnClickListener { onDecimalPoint(btnDot) }
-        btnEqual.setOnClickListener { onEqual(btnEqual) }
+        btnClear.setOnClickListener { onClear() }
+        btnDot.setOnClickListener { onDecimalPoint() }
+        btnEqual.setOnClickListener { onEqual() }
 
     }
 
@@ -65,13 +64,13 @@ class MainActivity : AppCompatActivity() {
         lastDot = false
     }
 
-    private fun onClear(view: View) {
+    private fun onClear() {
         tvInput?.text = ""
         lastDot = false
         lastNumeric = false
     }
 
-    private fun onDecimalPoint(view: View) {
+    private fun onDecimalPoint() {
         if (lastNumeric && !lastDot) {
             tvInput?.append(".")
             lastNumeric = false
@@ -100,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onEqual(view: View) {
+    private fun onEqual() {
         if (lastNumeric) {
             var tvValue = tvInput?.text.toString()
             var prefix = ""
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                 if (tvValue.contains("-")) {
                     val splitValue = tvValue.split("-")
                     var one = splitValue[0]
-                    var two = splitValue[1]
+                    val two = splitValue[1]
 
                     if (prefix.isNotEmpty()) {
                         one = prefix + one
@@ -125,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                 } else if (tvValue.contains("+")) {
                     val splitValue = tvValue.split("+")
                     var one = splitValue[0]
-                    var two = splitValue[1]
+                    val two = splitValue[1]
 
                     if (prefix.isNotEmpty()) {
                         one = prefix + one
@@ -135,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                 } else if (tvValue.contains("/")) {
                     val splitValue = tvValue.split("/")
                     var one = splitValue[0]
-                    var two = splitValue[1]
+                    val two = splitValue[1]
 
                     if (prefix.isNotEmpty()) {
                         one = prefix + one
@@ -145,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                 } else if (tvValue.contains("*")) {
                     val splitValue = tvValue.split("*")
                     var one = splitValue[0]
-                    var two = splitValue[1]
+                    val two = splitValue[1]
 
                     if (prefix.isNotEmpty()) {
                         one = prefix + one
