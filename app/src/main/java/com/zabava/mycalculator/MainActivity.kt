@@ -10,6 +10,8 @@ import org.w3c.dom.Text
 class MainActivity : AppCompatActivity() {
 
     private var tvInput: TextView? = null
+    var lastNumeric : Boolean = false
+    var lastDot : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         val btnSeven: Button = findViewById(R.id.btnSeven)
         val btnEight: Button = findViewById(R.id.btnEight)
         val btnNine: Button = findViewById(R.id.btnNine)
+        val btnDot: Button = findViewById(R.id.btnDot)
         val btnDivide: Button = findViewById(R.id.btnDivide)
         val btnMultiply: Button = findViewById(R.id.btnMultiply)
         val btnAdd: Button = findViewById(R.id.btnAdd)
@@ -33,21 +36,40 @@ class MainActivity : AppCompatActivity() {
         val btnEqual: Button = findViewById(R.id.btnEqual)
         val btnClear: Button = findViewById(R.id.btnCLEAR)
 
-        val numbers = listOf(btnZero,btnOne,btnTwo,btnThree,btnFour,btnFive,btnSix,btnSeven,btnEight,btnNine)
-        for (i in numbers){
-            i.setOnClickListener { onDigit(i) }
+        val numbers = listOf(
+            btnZero, btnOne, btnTwo, btnThree, btnFour,
+            btnFive, btnSix, btnSeven, btnEight, btnNine
+        )
+        for (i in numbers) {
+            i.setOnClickListener {
+                onDigit(i)
+                lastNumeric = true
+            }
+
         }
 
         btnClear.setOnClickListener { onClear(btnClear) }
+        btnDot.setOnClickListener { onDecimalPoint(btnDot) }
 
     }
 
     private fun onDigit(view: View) {
         tvInput?.append((view as Button).text)
+        lastDot = false
     }
 
-    fun onClear(view: View) {
+    private fun onClear(view: View) {
         tvInput?.text = ""
+        lastDot = false
+        lastNumeric = false
+    }
+
+    private fun onDecimalPoint(view: View) {
+        if (lastNumeric && !lastDot){
+            tvInput?.append(".")
+            lastNumeric = false
+            lastDot = true
+        }
     }
 
 }
